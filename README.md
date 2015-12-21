@@ -16,4 +16,13 @@ Navigate to [http://localhost:8080/](http://localhost:8080/).
 
 ### Sonos
 
+#### Prerequisites:
+For now, you need [node-sonos-http-api](https://github.com/jishi/node-sonos-http-api) running separately.
+
+It's all hardcoded for localhost:5005.
+
+Things to do.
+* integrate the sonos api into this codebase
+* make everything start with `npm start`
+
 ### LIFX Bulbs

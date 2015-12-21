@@ -1,4 +1,12 @@
 import React from 'react';
+import {
+  Grid,
+  Row,
+  Col,
+  ListGroup,
+  ListGroupItem
+} from 'react-bootstrap';
+
 import Farva from '../actions/Farva.jsx';
 import ZoneStore from '../stores/Zones.jsx';
 import FavoriteStore from '../stores/Favorites.jsx';
@@ -49,22 +57,40 @@ export default class RiotDashboard extends React.Component {
   render() {
     return (
       <div className="container">
-        <h1>Zones</h1>
+        <Grid><Row>
+          <Col sm={3}>
+            <h1>Zones</h1>
+            {this.state.zones.map((zone, i) => (
 
-        {this.state.zones.map((zone, i) => (
-          <fieldset key={i}>
-            <legend>{zone.coordinator.roomName}</legend>
-            {zone.members.map((speaker, j) => (
-              <h3 key={j}>{speaker.roomName}</h3>
+              <ListGroup key={i}>
+                {zone.members.map((speaker, j) => {
+
+                  return (
+                    <ListGroupItem
+                      header={ j === 0 ? zone.coordinator.roomName : null }
+                      key={j}
+                      href="#">
+                        {speaker.roomName}
+                    </ListGroupItem>
+                  );
+                })}
+              </ListGroup>
             ))}
-          </fieldset>
-        ))}
+          </Col>
 
-        <h1>Favorites</h1>
-        {this.state.favorites.map((fav, i) => (
-          <span key={i}>{fav}</span>
-        ))}
+          <Col sm={5}>
+            <h1>Active</h1>
+          </Col>
 
+          <Col sm={4}>
+            <h1>Favorites</h1>
+            <ListGroup>
+              {this.state.favorites.map((fav, i) => (
+                <ListGroupItem key={i} href="#">{fav}</ListGroupItem>
+              ))}
+            </ListGroup>
+          </Col>
+        </Row></Grid>
       </div>
     );
   }
