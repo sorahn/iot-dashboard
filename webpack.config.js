@@ -7,19 +7,18 @@ export default {
   devtool: 'source-map',
   entry: [
     'webpack/hot/dev-server',
-    './src/index.js'
+    './src/index.jsx'
   ],
   output: {
     path: path.join(__dirname, 'build'),
-    filename: 'bundle.js'
+    filename: 'riot-dashboard.js'
   },
   module: {
     preLoaders: [
-      { test: /\.js$/, loader: 'eslint-loader', exclude: /node_modules/ }
+      { test: /\.jsx$/, loader: 'eslint-loader', exclude: /node_modules/ }
     ],
     loaders: [
-      { test: /\.js$/, loader: 'babel-loader', exclude: /node_modules/ },
-      { test: /\.css$/, loader: 'style-loader!css-loader', exclude: /node_modules/ }
+      { test: /\.jsx$/, loader: 'babel-loader', exclude: /node_modules/ },
     ]
   },
   plugins: [
