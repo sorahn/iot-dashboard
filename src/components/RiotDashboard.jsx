@@ -1,15 +1,12 @@
 import React from 'react';
-import {
-  Grid,
-  Row,
-  Col,
-  ListGroup,
-  ListGroupItem
-} from 'react-bootstrap';
+import { Flex, Block } from 'jsxstyle';
 
 import Farva from '../actions/Farva.jsx';
 import ZoneStore from '../stores/Zones.jsx';
-import FavoriteStore from '../stores/Favorites.jsx';
+
+import Favorites from './Favorites.jsx';
+import NowPlaying from './NowPlaying.jsx';
+import Zones from './Zones.jsx';
 
 export default class RiotDashboard extends React.Component {
   constructor(props) {
@@ -17,81 +14,51 @@ export default class RiotDashboard extends React.Component {
 
     this.state = {
       zones: [],
-      favorites: []
+      favorites: [],
+      active: {},
+      activeUUID: ''
     };
 
     this.onZonesUpdate = this.onZonesUpdate.bind(this);
-    this.onFavoritesUpdate = this.onFavoritesUpdate.bind(this);
   }
 
   componentDidMount() {
     ZoneStore.addListener(this.onZonesUpdate);
-    FavoriteStore.addListener(this.onFavoritesUpdate);
 
     if (!this.state.zones.length) {
       Farva.getZones();
-    }
-
-    if (!this.state.favorites.length) {
-      Farva.getFavorites();
     }
   }
 
   componentWillUnmount() {
     ZoneStore.removeListener(this.onZonesUpdate);
-    FavoriteStore.removeListener(this.onFavoritesUpdate);
   }
 
   onZonesUpdate() {
     const zones = ZoneStore.getZones();
+    const active = ZoneStore.getActive();
 
-    this.setState({zones});
-  }
 
-  onFavoritesUpdate() {
-    const favorites = FavoriteStore.getFavorites();
-
-    this.setState({favorites});
+    this.setState({zones, active});
   }
 
   render() {
     return (
-      <div className="container">
-        <Grid><Row>
-          <Col sm={3}>
-            <h1>Zones</h1>
-            {this.state.zones.map((zone, i) => (
+      <Flex>
+        <Block flex="10">
+          <Zones zones={this.state.zones} />
+        </Block>
 
-              <ListGroup key={i}>
-                {zone.members.map((speaker, j) => {
+        <Block flex="12">
+          {this.state.active &&
+            <NowPlaying active={this.state.active}/>
+          }
+        </Block>
 
-                  return (
-                    <ListGroupItem
-                      header={ j === 0 ? zone.coordinator.roomName : null }
-                      key={j}
-                      href="#">
-                        {speaker.roomName}
-                    </ListGroupItem>
-                  );
-                })}
-              </ListGroup>
-            ))}
-          </Col>
-
-          <Col sm={5}>
-            <h1>Active</h1>
-          </Col>
-
-          <Col sm={4}>
-            <h1>Favorites</h1>
-            <ListGroup>
-              {this.state.favorites.map((fav, i) => (
-                <ListGroupItem key={i} href="#">{fav}</ListGroupItem>
-              ))}
-            </ListGroup>
-          </Col>
-        </Row></Grid>
-      </div>
+        <Block flex="16">
+          <Favorites favorites={this.state.favorites} />
+       </Block>
+      </Flex>
     );
   }
 }

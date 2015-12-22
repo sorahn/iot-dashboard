@@ -31,6 +31,21 @@ const SonosApi = {
           }
         });
     });
+  },
+
+  sendRoomCommand(roomName, command, args) {
+    return new Promise(function (resolve, reject) {
+      agent
+        .get(`${SONOS_URL}/${roomName}/${command}/${args}`)
+        .accept('json')
+        .end((err, res) => {
+          if (!err) {
+            resolve(JSON.parse(res.text));
+          } else {
+            reject(err, res);
+          }
+        });
+    });
   }
 };
 

@@ -1,17 +1,16 @@
 import {Store} from 'flux/utils';
 import {Radio, Yelling} from '../actions/Farva.jsx';
 
-let favorites = [];
+let active = {};
 
 class FavoriteStore extends Store {
-  getFavorites() {
-    return favorites;
+  getActive() {
+    return active;
   }
 
   __onDispatch(action) {
     switch (action.type) {
-      case Yelling.GOT_FAVORITES:
-        favorites = action.meow;
+        active = action.meow;
         break;
 
       default:
