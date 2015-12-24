@@ -14,7 +14,7 @@ const Farva = {
     SonosApi.getZones().then((zones) => {
       Radio.dispatch({
         type: Yelling.GOT_ZONES,
-        meow: zones
+        data: zones
       });
     });
   },
@@ -23,7 +23,7 @@ const Farva = {
     SonosApi.getFavorites().then((favorites) => {
       Radio.dispatch({
         type: Yelling.GOT_FAVORITES,
-        meow: favorites
+        data: favorites
       });
     });
   },
@@ -31,7 +31,7 @@ const Farva = {
   changeActive(active) {
     Radio.dispatch({
       type: Yelling.CHANGE_ACTIVE,
-      meow: active
+      data: active
     });
   },
 

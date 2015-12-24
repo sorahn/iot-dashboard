@@ -11,7 +11,7 @@ class FavoriteStore extends Store {
   __onDispatch(action) {
     switch (action.type) {
       case Yelling.GOT_FAVORITES:
-        favorites = action.meow;
+        favorites = action.data;
         break;
 
       default:

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Col, Navbar, ListGroup, ListGroupItem } from 'react-bootstrap';
+import { Panel, ListGroup, ListGroupItem } from 'react-bootstrap';
 import Farva from '../actions/Farva.jsx';
 import FavoriteStore from '../stores/Favorites.jsx';
 
@@ -14,6 +14,12 @@ export default class Favorites extends React.Component {
     this.onFavoritesUpdate = this.onFavoritesUpdate.bind(this);
   }
 
+  onFavoritesUpdate() {
+    this.setState({
+      favorites: FavoriteStore.getFavorites()
+    });
+  }
+
   componentDidMount() {
     FavoriteStore.addListener(this.onFavoritesUpdate);
     Farva.getFavorites();
@@ -21,12 +27,6 @@ export default class Favorites extends React.Component {
 
   componentWillUnmount() {
     FavoriteStore.removeListener(this.onFavoritesUpdate);
-  }
-
-  onFavoritesUpdate() {
-    const favorites = FavoriteStore.getFavorites();
-
-    this.setState({favorites});
   }
 
   handleFavoriteClick(favorite) {
@@ -38,20 +38,13 @@ export default class Favorites extends React.Component {
   render() {
     const favorites = this.state.favorites;
     return (
-      <div>
-        <Navbar staticTop>
-          <Navbar.Header>
-            <Navbar.Brand>Favorites</Navbar.Brand>
-          </Navbar.Header>
-        </Navbar>
-        <Col xs={12}>
-          <ListGroup>
-            {favorites.map((favorite, i) => (
-              <ListGroupItem key={i} onClick={() => {this.handleFavoriteClick(favorite);}}>{favorite}</ListGroupItem>
-            ))}
-          </ListGroup>
-        </Col>
-      </div>
+      <Panel header={<h3>Favorites</h3>} bsStyle="primary">
+        <ListGroup>
+          {favorites.map((favorite, i) => {
+            return <ListGroupItem key={i}>{favorite}</ListGroupItem>;
+          })}
+        </ListGroup>
+      </Panel>
     );
   }
 }

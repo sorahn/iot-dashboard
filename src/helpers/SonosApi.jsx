@@ -1,6 +1,6 @@
 import agent from 'superagent';
 
-const SONOS_URL = 'http://localhost:5005';
+const SONOS_URL = 'http://xbmcs-mac-mini.local:5005';
 
 const SonosApi = {
   getZones() {

@@ -1,29 +1,22 @@
-import {Store} from 'flux/utils';
-import {Radio, Yelling} from '../actions/Farva.jsx';
+import { Store } from 'flux/utils';
+import { Radio, Yelling } from '../actions/Farva.jsx';
+import _ from 'lodash';
 
 let zones = [];
-let active = {};
 
 class ZoneStore extends Store {
   getZones() {
     return zones;
   }
 
-  getActive() {
-    if (!active) {
-      active = zones[0];
-    }
-    return active;
+  getZoneByUUID(uuid) {
+    return zones[_.findIndex(zones, {uuid})];
   }
 
-  __onDispatch(cmd) {
-    switch (cmd.type) {
+  __onDispatch(action) {
+    switch (action.type) {
       case Yelling.GOT_ZONES:
-        zones = cmd.meow;
-        break;
-
-      case Yelling.CHANGE_ACTIVE:
-        active = zones[cmd.meow];
+        zones = action.data;
         break;
 
       default: break;
